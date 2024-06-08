@@ -36,7 +36,8 @@ void SnakeGameController::run(bool showWelcomeScreen = true) {
     curs_set(0);           // Скрытие курсора
     keypad(stdscr, TRUE);  // Включение обработки функциональных клавиш
     timeout(100);          // Установка таймаута для getch()
-    
+    view_.initializeColors();
+
     if(showWelcomeScreen)
         view_.showWelcomeScreen();
     

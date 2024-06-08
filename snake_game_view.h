@@ -23,6 +23,7 @@ public:
     void showWelcomeScreen();
     int showResultScreen(bool gameOver, bool gameWin);
     void drawField() const;
+    void initializeColors();
 private:
    SnakeGameModel& model_;
 }; // class SnakeGameView

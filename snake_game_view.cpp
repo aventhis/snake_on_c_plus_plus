@@ -84,25 +84,42 @@ int SnakeGameView::showResultScreen(bool gameOver, bool gameWin) {
 void SnakeGameView::drawField() const {
     const auto& field = model_.getField();
     clear();  // Очистка экрана
-    // bool is_head = true;
     for(size_t y = 0; y < field.size(); y++) {
-         for(size_t x = 0; x < field[y].size(); x++) {
-            //Перемещает курсор на позицию (y, x) на экране.
-            move(y,x);
-            if(field[y][x] == Field)
-                addch('.'); 
-            else if(field[y][x] == SnakeHead) 
+        for(size_t x = 0; x < field[y].size(); x++) {
+            move(y, x);
+            if (field[y][x] == Field) {
+                attron(COLOR_PAIR(0));  // Белый на чёрном для поля
+                addch('.');
+                attroff(COLOR_PAIR(0));
+            } else if (field[y][x] == SnakeHead) {
+                attron(COLOR_PAIR(1));  // Зелёный на чёрном для головы змейки
                 addch('"');
-            else if(field[y][x] == SnakeBody)
-                addch('#'); 
-            else if(field[y][x] == Apple)
-                addch('0'); 
-            else if (field[y][x] == Border) 
-                addch('3'); 
-         }
-         std::cout << std::endl;
+                attroff(COLOR_PAIR(1));
+            } else if (field[y][x] == SnakeBody) {
+                attron(COLOR_PAIR(1));  // Зелёный на чёрном для тела змейки
+                addch('#');
+                attroff(COLOR_PAIR(1));
+            } else if (field[y][x] == Apple) {
+                attron(COLOR_PAIR(2));  // Красный на чёрном для яблока
+                addch('0');
+                attroff(COLOR_PAIR(2));
+            } else if (field[y][x] == Border) {
+                attron(COLOR_PAIR(3));  // Белый на чёрном для стен
+                addch('3');
+                attroff(COLOR_PAIR(3));
+            }
+        }
     }
     refresh();  // Обновление экрана
 }
+
+void SnakeGameView::initializeColors() {
+    start_color();
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);  // Змейка
+    init_pair(2, COLOR_RED, COLOR_BLACK);    // Яблоко
+    init_pair(3, COLOR_BLACK, COLOR_BLACK); // Стенка
+    init_pair(0, COLOR_WHITE, COLOR_BLACK); // Стенка
+}
+
 
 } // namespace s21
