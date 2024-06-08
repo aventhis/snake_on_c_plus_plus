@@ -69,6 +69,7 @@ void SnakeGameController::run(bool showWelcomeScreen = true) {
         }
         
         model_.moveSnake();
+        
         if(model_.isGameOver() || model_.isGameWin()) {
             int Restart= view_.showResultScreen(model_.isGameOver(), model_.isGameWin());
             if(Restart == '\n' || Restart == KEY_ENTER) {

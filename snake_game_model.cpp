@@ -10,7 +10,7 @@ SnakeGameModel::SnakeGameModel(int width, int height)
     srand(time(nullptr));
     
     // Установка начального положения змейки: голова и три сегмента хвоста
-    int snake_y = height / 2;
+    int snake_y = height / 2 ;
     int snake_x = width / 2;
 
     // Голова
@@ -19,8 +19,8 @@ SnakeGameModel::SnakeGameModel(int width, int height)
 
     // Хвостовые сегменты
     for (int i = 1; i <= 3; ++i) {
-        snake_.push_back({snake_y, snake_x - i});
-        field_[snake_y][snake_x - i] = SnakeBody;
+        snake_.push_back({snake_y, snake_x + i});
+        field_[snake_y][snake_x + i] = SnakeBody;
     }
 
     // Установка начального положения яблока
@@ -59,6 +59,7 @@ void SnakeGameModel::moveSnake() {
     if(gameOver_) return;
 
     std::pair<int,int> new_head = snake_.front();
+   
     switch (direction_) {
         case Direction::Up:
             new_head.first--;
@@ -73,15 +74,25 @@ void SnakeGameModel::moveSnake() {
             new_head.second++;
             break;
     }
-
+    
     //обработка столкновения
-    if(new_head.second < 1 || new_head.first < 1||new_head.second >= width_ -1 || new_head.first >= height_ -1)
+    if(new_head.second < 1 || new_head.first < 1||new_head.second >= width_ -1 || new_head.first >= height_ -1) {
         gameOver_ = true;
+        return;
+    }
+
+    if(field_[new_head.first][new_head.second] == SnakeBody) {
+        // std::cout <<  field_[new_head.first][new_head.second]<< SnakeBody << std:: endl;
+        gameOver_ = true;
+        return;
+    }
+    
     
      // Обновление головы
     field_[snake_.front().first][snake_.front().second] = SnakeBody;
     snake_.insert(snake_.begin(), new_head);
     
+
     // змейка съедает яблоко
     if (field_[new_head.first][new_head.second] == Apple) {
         // перед генерацией нового яблока проверить на наличие пустового места
@@ -94,6 +105,8 @@ void SnakeGameModel::moveSnake() {
         snake_.pop_back();
     }
     field_[new_head.first][new_head.second] = SnakeHead;
+    
+    
 }
 
 void SnakeGameModel::generateApple() {
@@ -127,8 +140,8 @@ void SnakeGameModel::restartGame() {
 
     // Хвостовые сегменты
     for (int i = 1; i <= 3; ++i) {
-        snake_.push_back({snake_y, snake_x - i});
-        field_[snake_y][snake_x - i] = SnakeBody;
+        snake_.push_back({snake_y, snake_x + i});
+        field_[snake_y][snake_x + i] = SnakeBody;
     }
 
     // Установка начального положения яблока
