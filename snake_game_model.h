@@ -20,7 +20,10 @@ public:
     SnakeGameModel(int wigth, int height);
     std::vector< std::vector <int> > getField () const;
     bool isGameOver();
-    void generateApple();
+    // void generateApple();
+    void setDirection(Direction dir);
+    void moveSnake();
+    
 
 private:
     int width_;
@@ -28,6 +31,7 @@ private:
     std::vector< std::vector <int> > field_;
     std::vector<std::pair<int,int>> snake_;
     bool gameOver_;
+    Direction direction_;
 }; // class SnakeGameModel
 
 } // namespace s21

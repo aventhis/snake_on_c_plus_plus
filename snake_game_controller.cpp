@@ -39,14 +39,37 @@ void SnakeGameController::run() {
 
     while(true) {
         int ch = getch();
+        // std::cout << ch << std::endl;
         UserAction_t action = getUserAction(ch);
+    
         if(action == Terminate) {
             break;
-        }
+        } 
 
+        switch(action) {
+            case Up:
+                model_.setDirection(Direction::Up);
+                break;
+            case Down:
+                model_.setDirection(Direction::Down);
+                break;
+            case Left:
+                model_.setDirection(Direction::Left);
+                break;
+            case Right:
+                model_.setDirection(Direction::Right);
+                break;
+            case Action:
+                break;
+            default:
+                break;
+        }
+        
+        model_.moveSnake();
         if(model_.isGameOver()) {
             break;
         }
+        
         // из view делаем отрисовку
         view_.drawField();
     }
