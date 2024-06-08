@@ -12,13 +12,16 @@ typedef enum {
     Apple,
     Border,
 } FieldView;
+
 // Forward declaration
 class SnakeGameModel;
 
 // Сlass SnakeGameView - view for Snake in terminal
 class SnakeGameView {
 public:
-    explicit SnakeGameView(SnakeGameModel& model) : model_(model) {};
+    explicit SnakeGameView(SnakeGameModel& model);
+    void showWelcomeScreen();
+    int showResultScreen(bool gameOver, bool gameWin);
     void drawField() const;
 private:
    SnakeGameModel& model_;

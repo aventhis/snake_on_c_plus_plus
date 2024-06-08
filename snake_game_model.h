@@ -20,9 +20,11 @@ public:
     SnakeGameModel(int wigth, int height);
     std::vector< std::vector <int> > getField () const;
     bool isGameOver();
+    bool isGameWin();
     void generateApple();
     void setDirection(Direction dir);
     void moveSnake();
+    void restartGame();
     
 
 private:
@@ -31,6 +33,7 @@ private:
     std::vector< std::vector <int> > field_;
     std::vector<std::pair<int,int>> snake_;
     bool gameOver_;
+    bool gameWin_;
     Direction direction_;
 }; // class SnakeGameModel
 

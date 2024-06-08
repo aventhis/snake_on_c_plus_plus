@@ -5,7 +5,7 @@
 namespace s21 {
 
 SnakeGameModel::SnakeGameModel(int width, int height)
-    : width_(width + 2), height_(height + 2), field_(height + 2, std::vector<int>(width + 2, 0)), gameOver_(false), direction_(Direction::Left)  {
+    : width_(width + 2), height_(height + 2), field_(height + 2, std::vector<int>(width + 2, 0)), gameOver_(false), gameWin_(false), direction_(Direction::Left)  {
     // инициализация генеротора случайных чисел
     srand(time(nullptr));
     
@@ -24,9 +24,7 @@ SnakeGameModel::SnakeGameModel(int width, int height)
     }
 
     // Установка начального положения яблока
-    int apple_x = 5 + 1; 
-    int apple_y = 5 + 1;
-    field_[apple_y][apple_x] = Apple;
+    generateApple();
 
     // Установка стенок
     for (int x = 0; x < width_; ++x) {
@@ -45,6 +43,10 @@ std::vector<std::vector<int>> SnakeGameModel::getField() const {
 
 bool SnakeGameModel::isGameOver() {
     return gameOver_;
+}
+
+bool SnakeGameModel::isGameWin() {
+    return gameWin_;
 }
 
 void SnakeGameModel::setDirection(Direction dir) {
@@ -96,12 +98,51 @@ void SnakeGameModel::moveSnake() {
 
 void SnakeGameModel::generateApple() {
     int x, y;
-    do {
-        x = rand() % width_;
-        y = rand() % height_;
-    } while (field_[y][x] != Field);  // Проверяем, что выбранная ячейка пуста
+    int freeField = width_*height_ - snake_.size();
+    if(freeField > 0) {
+        do {
+           x = rand() % (width_ - 2);
+           y = rand() % (height_ - 2);
+        } while (field_[y][x] != Field);  // Проверяем, что выбранная ячейка пуста
+        field_[y][x] = Apple;
+    } else
+        gameWin_ = true; //
+}
 
-    field_[y][x] = Apple;
+void SnakeGameModel::restartGame() {
+    gameOver_ = false;
+    gameWin_ = false;
+    direction_ = Direction::Left;
+    field_.clear();
+    snake_.clear();
+    field_.resize(height_, std::vector<int>(width_, 0)); 
+
+    // Установка начального положения змейки: голова и три сегмента хвоста
+    int snake_y = height_ / 2;
+    int snake_x = width_ / 2;
+
+    // Голова
+    snake_.push_back({snake_y, snake_x});
+    field_[snake_y][snake_x] = SnakeHead;
+
+    // Хвостовые сегменты
+    for (int i = 1; i <= 3; ++i) {
+        snake_.push_back({snake_y, snake_x - i});
+        field_[snake_y][snake_x - i] = SnakeBody;
+    }
+
+    // Установка начального положения яблока
+    generateApple();
+
+    // Установка стенок
+    for (int x = 0; x < width_; ++x) {
+        field_[0][x] = Border;
+        field_[height_ - 1][x] = Border;
+    }
+    for (int y = 0; y < height_; ++y) {
+        field_[y][0] = Border;
+        field_[y][width_ - 1] = Border;
+    }
 }
 
 }  // namespace s21

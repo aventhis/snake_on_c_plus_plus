@@ -8,7 +8,7 @@ int main() {
     s21::SnakeGameModel model(20,20);
     s21::SnakeGameView view(model);
     s21::SnakeGameController controller (model, view);
-    controller.run();
+    controller.run(true);
     
     return 0;
 }

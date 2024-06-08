@@ -29,17 +29,19 @@ UserAction_t SnakeGameController::getUserAction(int ch){
     }
 }
 
-void SnakeGameController::run() {
+void SnakeGameController::run(bool showWelcomeScreen = true) {
     initscr();             // Инициализация ncurses
     cbreak();              // ввод символов обрабатывается немедленно
     noecho();              // Отключение вывода вводимых символов
     curs_set(0);           // Скрытие курсора
     keypad(stdscr, TRUE);  // Включение обработки функциональных клавиш
     timeout(100);          // Установка таймаута для getch()
-
+    
+    if(showWelcomeScreen)
+        view_.showWelcomeScreen();
+    
     while(true) {
         int ch = getch();
-        // std::cout << ch << std::endl;
         UserAction_t action = getUserAction(ch);
     
         if(action == Terminate) {
@@ -66,8 +68,13 @@ void SnakeGameController::run() {
         }
         
         model_.moveSnake();
-        if(model_.isGameOver()) {
-            break;
+        if(model_.isGameOver() || model_.isGameWin()) {
+            int Restart= view_.showResultScreen(model_.isGameOver(), model_.isGameWin());
+            if(Restart == '\n' || Restart == KEY_ENTER) {
+                model_.restartGame();
+                run(false);  // Запуск игры
+            } else  
+                break;
         }
         
         // из view делаем отрисовку
