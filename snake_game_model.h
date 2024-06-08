@@ -20,7 +20,7 @@ public:
     SnakeGameModel(int wigth, int height);
     std::vector< std::vector <int> > getField () const;
     bool isGameOver();
-    // void generateApple();
+    void generateApple();
     void setDirection(Direction dir);
     void moveSnake();
     

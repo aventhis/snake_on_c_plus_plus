@@ -7,7 +7,8 @@ namespace s21 {
 
 typedef enum {
     Field,
-    Snake,
+    SnakeHead,
+    SnakeBody,
     Apple,
     Border,
 } FieldView;
