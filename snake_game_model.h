@@ -13,6 +13,17 @@ enum class Direction {
     Left,
     Right
 };
+
+typedef struct {
+    std::vector<std::vector<int>> field; // Игровое поле размером 10x20
+    int score;      // Текущий счет
+    int high_score; // Рекорд
+    int level;      // Уровень сложности игры
+    int speed;      // Скорость игры
+    int pause;      // Состояние паузы (1 - игра на паузе, 0 - игра активна)
+} GameInfo_t;
+
+
 // Сlass SnakeGameModel - logic for Snake
 class SnakeGameModel {
 public:
@@ -28,6 +39,7 @@ public:
     
 
 private:
+    GameInfo_t gameInfo_;
     int width_;
     int height_;
     std::vector< std::vector <int> > field_;

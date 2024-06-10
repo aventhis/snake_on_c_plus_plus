@@ -25,7 +25,9 @@ class SnakeGameController {
 public:
     explicit SnakeGameController(SnakeGameModel& model, SnakeGameView& view);
     void run(bool showWelcomeScreen);
+    void init_gui();
     UserAction_t getUserAction(int ch);
+    void userInput(UserAction_t action, bool hold);
 private:
    SnakeGameModel& model_;
    SnakeGameView& view_;

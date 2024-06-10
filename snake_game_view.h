@@ -2,6 +2,7 @@
 #define SNAKE_GAME_VIEW_H
 
 #include "snake_game_model.h"
+#include <cstring>
 
 namespace s21 {
 
